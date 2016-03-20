@@ -1,8 +1,10 @@
 package botwars;
 
 import java.io.File;
+import botwars.compute.api.BotWarsAPI;
 import botwars.web.GitAutoUpdater;
 import botwars.web.home.HomePage;
+import botwars.web.include.IncludeController;
 import bowser.WebServer;
 import ox.Config;
 import ox.Log;
@@ -17,6 +19,8 @@ public class BotWarsServer {
 
     int httpPort = config.getInt("port", devMode ? 8080 : 80);
     WebServer server = new WebServer("BotWars", httpPort, devMode)
+        .controller(new BotWarsAPI())
+        .controller(new IncludeController())
         .controller(new HomePage())
         .controller(new GitAutoUpdater("/root/dynasty/build/update.sh"));
     server.start();

@@ -1,0 +1,16 @@
+body {
+  color: #6aff00;
+  background-color: black;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h1 {
+  margin-bottom: 0px;
+}
+
+a {
+  color: white;
+}
