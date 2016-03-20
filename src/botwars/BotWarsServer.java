@@ -44,14 +44,16 @@ public class BotWarsServer {
     server.start();
 
     Log.info("BotWars Server started on port " + httpPort);
+
+    if (devMode) {
+      TestBot.main(null);
+    }
   }
 
   public static void main(String[] args) {
     Log.logToFolder(new File(OS.getHomeFolder(), "log"));
 
     new BotWarsServer().run();
-
-    TestBot.main(args);
   }
 
 }
