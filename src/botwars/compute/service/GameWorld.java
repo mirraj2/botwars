@@ -1,7 +1,10 @@
 package botwars.compute.service;
 
-import java.util.List;
-import com.google.common.collect.Lists;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import com.google.common.collect.Maps;
+import botwars.compute.arch.Threads;
 import botwars.compute.model.GameTable;
 import ox.Log;
 
@@ -9,17 +12,26 @@ public class GameWorld {
 
   private static final GameWorld instance = new GameWorld();
 
-  public final List<GameTable> tables = Lists.newArrayList();
+  public final Map<Integer, GameTable> idTables = Maps.newLinkedHashMap();
 
   private GameWorld() {
-    Log.info("Creating the first table.");
-    tables.add(new GameTable());
+    newTable();
+
+    Threads.every(200, TimeUnit.MILLISECONDS).run(this::tick);
+  }
+
+  public Collection<GameTable> getTables() {
+    return idTables.values();
+  }
+
+  private void tick() {
+
   }
 
   public GameTable newTable() {
     GameTable ret = new GameTable();
     Log.info("Created table " + ret.id);
-    tables.add(ret);
+    idTables.put(ret.id, ret);
     return ret;
   }
 
