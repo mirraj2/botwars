@@ -1,0 +1,6 @@
+bin/
+.DS_Store
+*.jar
+!lib/**/*.jar
+phantomjsdriver.log
+ios/Dynasty Alpha/Dynasty Alpha.xcworkspace/xcuserdata/elliottburris.xcuserdatad/UserInterfaceState.xcuserstate
