@@ -1,6 +1,7 @@
 package botwars;
 
 import java.io.File;
+import botwars.web.GitAutoUpdater;
 import botwars.web.home.HomePage;
 import bowser.WebServer;
 import ox.Config;
@@ -14,9 +15,10 @@ public class BotWarsServer {
   public void run() {
     boolean devMode = config.getBoolean("dev_mode", false);
 
-    int httpPort = config.getInt("port", devMode ? 8080 : 443);
+    int httpPort = config.getInt("port", devMode ? 8080 : 80);
     WebServer server = new WebServer("BotWars", httpPort, devMode)
-        .controller(new HomePage());
+        .controller(new HomePage())
+        .controller(new GitAutoUpdater("/root/dynasty/build/update.sh"));
     server.start();
 
     Log.info("BotWars Server started on port " + httpPort);
