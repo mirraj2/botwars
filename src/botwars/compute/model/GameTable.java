@@ -1,7 +1,9 @@
 package botwars.compute.model;
 
 import static com.google.common.base.Preconditions.checkState;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
+import ox.Json;
 import ox.Log;
 
 public class GameTable {
@@ -10,7 +12,7 @@ public class GameTable {
   public static final int STARTING_CHIPS = 1000;
   public static final int BLIND_AMOUNT = 10;
 
-  private final AtomicInteger idCounter = new AtomicInteger();
+  private static final AtomicInteger idCounter = new AtomicInteger();
 
   public final int id = idCounter.incrementAndGet();
 
@@ -45,6 +47,34 @@ public class GameTable {
     if (model == null && playerCount >= 2) {
       startNewGame();
     }
+  }
+
+  public Json toJson(String token) {
+    Json json = Json.object()
+        .with("id", id);
+
+    Json players = Json.array(Arrays.asList(this.players),
+        p -> {
+          Json ret = Json.object()
+              .with("name", p.name)
+              .with("chips", p.chips)
+              .with("status", p.status);
+          if (p.isActive()) {
+            ret.with("betAmount", p.betAmount);
+            if (p.token.equals(token)) {
+              ret.with("hand", p.hand.toJson());
+            }
+          }
+          return ret;
+        });
+
+    json.with("players", players)
+        .with("blindAmount", model.blindAmount)
+        .with("potSize", model.potSize)
+        .with("board", Json.array(model.board, Card::toShortString))
+        .with("dealerIndex", model.dealerIndex);
+
+    return json;
   }
 
 }

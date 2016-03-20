@@ -25,6 +25,7 @@ public class BotWarsAPI extends Controller {
   private final Handler getTable = (request, response) -> {
     int tableId = request.getInt(1);
     GameTable table = world.idTables.get(tableId);
+    response.write(table.toJson(request.param("token")));
   };
 
   private final Handler getTables = (request, response) -> {
@@ -47,22 +48,27 @@ public class BotWarsAPI extends Controller {
     checkState(name.length() >= 3, "Your name must be at least 3 characters.");
     checkState(name.length() <= 12, "Your name cannot be longer than 12 characters.");
 
-    for (GameTable table : world.getTables()) {
-      for (Player player : table.players) {
-        if (player.name.equalsIgnoreCase(name)) {
-          throw new IllegalStateException("There is already a player with this name sitting at table " + table.id);
+    Player player;
+    GameTable last;
+
+    synchronized (world) {
+      for (GameTable table : world.getTables()) {
+        for (Player p : table.players) {
+          if (p != null && p.name.equalsIgnoreCase(name)) {
+            throw new IllegalStateException("There is already a player with this name sitting at table " + table.id);
+          }
         }
       }
+
+      player = new Player(name);
+
+      last = Utils.last(world.getTables());
+      if (last.isFull()) {
+        last = world.newTable();
+      }
+
+      last.sit(player);
     }
-
-    Player player = new Player(name);
-
-    GameTable last = Utils.last(world.getTables());
-    if (last.isFull()) {
-      last = world.newTable();
-    }
-
-    last.sit(player);
 
     response.write(Json.object()
         .with("token", player.token)

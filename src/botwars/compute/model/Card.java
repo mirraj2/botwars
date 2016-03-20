@@ -71,4 +71,5 @@ public class Card implements Comparable<Card>, Serializable {
     }
     return cards;
   }
+
 }

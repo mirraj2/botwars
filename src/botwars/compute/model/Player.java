@@ -8,6 +8,8 @@ public class Player {
   public final String name;
 
   public int chips;
+  public int betAmount;
+
   public Hand hand;
 
   public Status status;

@@ -2,11 +2,15 @@ package botwars.compute.model;
 
 import static com.google.common.base.Preconditions.checkState;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import com.google.common.collect.Lists;
+import ox.Log;
 
 public class GameModel {
 
-  public final int id;
+  private static final AtomicInteger counter = new AtomicInteger();
+
+  public final int id = counter.incrementAndGet();
 
   public final Player[] players;
   public int numPlayers = 0;
@@ -20,12 +24,14 @@ public class GameModel {
   private int currentIndex;
 
   public GameModel(GameModel last, Player[] players, int blindAmount) {
+    Log.info("New hand has begun: " + id);
+
     this.blindAmount = blindAmount;
-    this.id = last == null ? 1 : last.id + 1;
     this.players = players;
 
     for (Player player : players) {
       if (player != null) {
+        player.status = Player.Status.ACTIVE;
         numPlayers++;
       }
     }
@@ -38,6 +44,7 @@ public class GameModel {
   private void pay(Player player, int amount) {
     checkState(player.chips >= amount, "Not enough chips.");
     player.chips -= amount;
+    player.betAmount += amount;
     potSize += amount;
   }
 
@@ -60,7 +67,6 @@ public class GameModel {
   private void drawStartingHands() {
     for (Player player : players) {
       if (player != null) {
-        player.status = Player.Status.ACTIVE;
         player.hand = new Hand(deck.draw(), deck.draw());
       }
     }

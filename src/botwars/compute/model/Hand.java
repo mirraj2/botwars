@@ -3,6 +3,7 @@ package botwars.compute.model;
 import java.io.Serializable;
 import java.util.Iterator;
 import com.google.common.collect.ImmutableList;
+import ox.Json;
 
 public class Hand implements Iterable<Card>, Serializable {
 
@@ -42,6 +43,10 @@ public class Hand implements Iterable<Card>, Serializable {
 
   public String toShortString() {
     return a.toShortString() + b.toShortString();
+  }
+
+  public Json toJson() {
+    return Json.array(this, Card::toShortString);
   }
 
 }
