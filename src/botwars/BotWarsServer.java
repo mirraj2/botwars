@@ -22,7 +22,7 @@ public class BotWarsServer {
         .controller(new BotWarsAPI())
         .controller(new IncludeController())
         .controller(new HomePage())
-        .controller(new GitAutoUpdater("/root/dynasty/build/update.sh"));
+        .controller(new GitAutoUpdater("/root/botwars/build/update.sh"));
     server.start();
 
     Log.info("BotWars Server started on port " + httpPort);
