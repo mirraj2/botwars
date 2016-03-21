@@ -1,11 +1,14 @@
 package botwars.compute.model;
 
 import java.util.UUID;
+import org.java_websocket.WebSocket;
 
 public class Player {
 
   public final String token = UUID.randomUUID().toString().replace("-", "");
-  public final String name;
+
+  public String name;
+  public WebSocket socket;
 
   public int seatIndex;
 
@@ -24,6 +27,10 @@ public class Player {
   public long version = -1;
   public byte[] state = null;
 
+  public Player(WebSocket socket) {
+    this.socket = socket;
+  }
+
   public Player(String name) {
     this.name = name;
   }
@@ -35,6 +42,10 @@ public class Player {
 
   public boolean isActive() {
     return status == Status.PLAYING;
+  }
+
+  public void send(String message) {
+    socket.send(message);
   }
 
   public static enum Status {

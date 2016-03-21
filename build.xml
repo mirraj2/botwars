@@ -8,6 +8,7 @@
     <property name="Ox.location" value="../Ox"/>
     <property name="EZDB.location" value="../EZDB"/>
     <property name="Bowser.location" value="../Bowser"/>
+    <property name="JavaWebsockets.location" value="../JavaWebsockets"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
@@ -32,6 +33,9 @@
         <pathelement location="${EZDB.location}/lib/slf4j-simple-1.7.2.jar"/>
         <path refid="Ox.classpath"/>
     </path>
+    <path id="JavaWebsockets.classpath">
+        <pathelement location="${JavaWebsockets.location}/bin"/>
+    </path>
     <path id="botwars.classpath">
         <pathelement location="bin"/>
         <path refid="Bowser.classpath"/>
@@ -53,12 +57,14 @@
         <ant antfile="build.xml" dir="${Ox.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${EZDB.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Bowser.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${JavaWebsockets.location}" inheritAll="false" target="clean"/>
     </target>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects">
         <ant antfile="build.xml" dir="${Ox.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${EZDB.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Bowser.location}" inheritAll="false" target="build-project"/>
+        <ant antfile="build.xml" dir="${JavaWebsockets.location}" inheritAll="false" target="build-project"/>
     </target>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>

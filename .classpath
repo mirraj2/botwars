@@ -5,5 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Bowser"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/EZDB"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Ox"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/JavaWebsockets"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

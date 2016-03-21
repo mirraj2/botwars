@@ -4,6 +4,7 @@ git -C /root/botwars pull &
 git -C /root/Ox pull &
 git -C /root/Bowser pull &
 git -C /root/EZDB pull &
+git -C /root/JavaWebsockets pull &
 
 wait
 

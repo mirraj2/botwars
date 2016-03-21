@@ -73,8 +73,7 @@ public class BotWarsAPI extends Controller {
     response.write(json);
   };
 
-  private final Handler sit = (request, response) -> {
-    String name = request.param("name");
+  public void checkName(String name) {
     checkNotNull(name, "You must supply a name!");
 
     if (!CharMatcher.JAVA_LETTER_OR_DIGIT.matchesAllOf(name)) {
@@ -84,25 +83,31 @@ public class BotWarsAPI extends Controller {
     checkState(name.length() >= 3, "Your name must be at least 3 characters.");
     checkState(name.length() <= 12, "Your name cannot be longer than 12 characters.");
 
-    Player player;
-    GameTable table;
-
-    synchronized (world) {
-      for (GameTable t : world.getTables()) {
-        for (Player p : t.players) {
-          if (p != null && p.name.equalsIgnoreCase(name)) {
-            throw new IllegalStateException("There is already a player with this name sitting at table " + t.id);
-          }
+    for (GameTable t : world.getTables()) {
+      for (Player p : t.players) {
+        if (p != null && p.name.equalsIgnoreCase(name)) {
+          throw new IllegalStateException("There is already a player with this name sitting at table " + t.id);
         }
       }
+    }
+  }
 
-      player = new Player(name);
-      table = world.sit(player);
+  private final Handler sit = (request, response) -> {
+    String name = request.param("name");
+
+    Json j;
+
+    synchronized (world) {
+      checkName(name);
+      Player player = new Player(name);
+      GameTable table = world.sit(player);
+
+      j = Json.object()
+          .with("token", player.token)
+          .with("table", table.id);
     }
 
-    response.write(Json.object()
-        .with("token", player.token)
-        .with("table", table.id));
+    response.write(j);
   };
 
 }

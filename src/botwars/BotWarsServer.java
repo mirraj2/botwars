@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.google.common.base.Stopwatch;
 import botwars.bot.TestBot;
 import botwars.compute.api.BotWarsAPI;
+import botwars.web.BotWarsSocketServer;
 import botwars.web.GitAutoUpdater;
 import botwars.web.home.HomePage;
 import botwars.web.include.IncludeController;
@@ -41,8 +42,9 @@ public class BotWarsServer {
       }
     });
 
-    server.start();
+    new BotWarsSocketServer().start();
 
+    server.start();
     Log.info("BotWars Server started on port " + httpPort);
 
     if (devMode) {
