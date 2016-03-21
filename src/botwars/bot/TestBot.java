@@ -40,7 +40,7 @@ public class TestBot {
           } catch (Exception e) {
             e.printStackTrace();
           } finally {
-            sleep(100);
+            sleep(1000);
           }
         }
       } catch (Throwable t) {
@@ -50,7 +50,7 @@ public class TestBot {
   }
 
   public static void main(String[] args) {
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 100; i++) {
       new TestBot().run(i, i == 0);
       sleep(100);
     }

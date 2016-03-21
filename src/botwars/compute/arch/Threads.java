@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Threads {
 
-  private static final ScheduledExecutorService pool = Executors.newScheduledThreadPool(32);
+  private static final ScheduledExecutorService pool = Executors.newScheduledThreadPool(128);
 
   public static void run(Runnable r) {
     pool.execute(r);

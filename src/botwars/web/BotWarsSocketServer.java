@@ -7,6 +7,7 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 import com.google.common.collect.Maps;
 import botwars.compute.api.BotWarsAPI;
+import botwars.compute.model.GameTable;
 import botwars.compute.model.Player;
 import botwars.compute.service.GameWorld;
 import ox.Json;
@@ -31,6 +32,13 @@ public class BotWarsSocketServer extends WebSocketServer {
     players.put(socket, player);
 
     Log.info("Client connected!");
+
+    Json tables = Json.object();
+    for (GameTable table : world.idTables.values()) {
+      tables.with(table.id + "", table.toJson());
+    }
+
+    player.send(Json.object().with("command", "tables").with("tables", tables));
   }
 
   @Override

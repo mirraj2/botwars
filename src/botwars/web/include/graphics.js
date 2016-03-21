@@ -12,8 +12,14 @@ function wrapContext(g) {
     },
     fillOval : function(x, y, width, height) {
       g.beginPath();
-      g.arc(x + width / 2, y + height / 2, width / 2, 0, 2 * Math.PI, false);
+      g.ellipse(x + width / 2, y + height / 2, width / 2, height / 2, 0, 0, 2 * Math.PI, false);
       g.fill();
+      return this;
+    },
+    drawOval : function(x, y, width, height) {
+      g.beginPath();
+      g.ellipse(x + width / 2, y + height / 2, width / 2, height / 2, 0, 0, 2 * Math.PI, false);
+      g.stroke();
       return this;
     },
     drawLine : function(x, y, x2, y2) {
@@ -21,6 +27,10 @@ function wrapContext(g) {
       g.moveTo(x, y);
       g.lineTo(x2, y2);
       g.stroke();
+      return this;
+    },
+    lineWidth : function(width) {
+      g.lineWidth = width;
       return this;
     },
     drawString : function(s, x, y, width, height) {
@@ -66,6 +76,9 @@ function wrapContext(g) {
     clip : function(clip) {
       clipRegion = clip;
       return this;
+    },
+    getContext : function() {
+      return g;
     }
   };
 }

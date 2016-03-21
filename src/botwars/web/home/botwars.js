@@ -8,10 +8,11 @@ var canvas = $("canvas")[0];
 var g = wrapContext(canvas.getContext("2d"));
 var socket = connect(host, $$(serverPort));
 var width, height;
+var tables = {};
 
 $(function() {
   socket.message(handleMessage);
-  socket.open(function(){
+  socket.open(function() {
     console.log("Connected to socket server.");
   });
   $(window).resize(resize);
@@ -20,12 +21,15 @@ $(function() {
 });
 
 function handleMessage(data) {
-  console.log(data);
+  var command = data.command;
+  if (command == "tables") {
+    tables = data.tables;
+  }
 }
 
 function render() {
   g.save();
-  g.color("black").fillRect(0, 0, width, height);
+  renderWorld();
   g.restore();
   renderFPS();
 }

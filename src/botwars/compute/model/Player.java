@@ -2,6 +2,7 @@ package botwars.compute.model;
 
 import java.util.UUID;
 import org.java_websocket.WebSocket;
+import ox.Json;
 
 public class Player {
 
@@ -46,6 +47,10 @@ public class Player {
 
   public void send(String message) {
     socket.send(message);
+  }
+
+  public void send(Json json) {
+    send(json.toString());
   }
 
   public static enum Status {

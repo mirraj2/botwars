@@ -128,6 +128,10 @@ public class GameTable {
         && player.isActive();
   }
 
+  public Json toJson() {
+    return toJson(null);
+  }
+
   public Json toJson(String token) {
     Json json = Json.object()
         .with("id", id);
